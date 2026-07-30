@@ -1,4 +1,4 @@
-﻿import { create } from 'zustand';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { AuthService } from '@/services/auth.service';
 
@@ -18,7 +18,7 @@ interface AuthState {
   setAuth: (user: User, accessToken: string) => void;
   setAccessToken: (token: string) => void;
   updateUser: (user: Partial<User>) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -34,9 +34,13 @@ export const useAuthStore = create<AuthState>()(
         set((state) => ({
           user: state.user ? { ...state.user, ...updatedFields } : null,
         })),
-      logout: () => {
+      logout: async () => {
         set({ user: null, accessToken: null, isAuthenticated: false });
-        AuthService.logout().catch(console.error); // Best effort backend logout
+        try {
+          await AuthService.logout();
+        } catch (e) {
+          console.error(e);
+        }
       },
     }),
     {

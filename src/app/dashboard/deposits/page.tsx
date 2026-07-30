@@ -86,7 +86,7 @@ export default function DepositsPage() {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="amount">Amount (Ã Â§Â³)</Label>
+                  <Label htmlFor="amount">Amount (৳)</Label>
                   <Input 
                     id="amount" 
                     type="number" 
@@ -140,7 +140,7 @@ export default function DepositsPage() {
                         {new Date(deposit.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                       </TableCell>
                       {user?.role === 'MANAGER' && <TableCell className="text-zinc-300">{deposit.member?.name || 'Unknown'}</TableCell>}
-                      <TableCell className="text-right font-bold text-emerald-400">Ã Â§Â³{deposit.amount}</TableCell>
+                      <TableCell className="text-right font-bold text-emerald-400">৳{deposit.amount}</TableCell>
                     </TableRow>
                   ))
                 ) : (

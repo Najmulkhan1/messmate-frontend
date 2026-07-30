@@ -1,4 +1,4 @@
-﻿import { useAuthStore } from '../store/useAuthStore';
+import { useAuthStore } from '../store/useAuthStore';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
@@ -57,7 +57,7 @@ async function customFetch(endpoint: string, options: RequestInit = {}) {
           headers
         });
       } catch (error) {
-        useAuthStore.getState().logout();
+        await useAuthStore.getState().logout();
         if (typeof window !== 'undefined') {
           window.location.href = '/login';
         }

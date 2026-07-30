@@ -18,10 +18,6 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
   
-  if (hasRefreshToken && (pathname === '/login' || pathname === '/register')) {
-    // Redirect to dashboard if trying to access login/register while authenticated
-    return NextResponse.redirect(new URL('/dashboard', request.url));
-  }
   
   return NextResponse.next();
 }

@@ -53,7 +53,7 @@ export default function BillsPage() {
                         {new Date(bill.month, bill.year - 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                       </TableCell>
                       <TableCell className="text-zinc-300 font-bold">
-                        Ã Â§Â³{bill.totalAmount}
+                        ৳{bill.totalAmount}
                       </TableCell>
                       <TableCell>
                         <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${

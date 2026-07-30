@@ -61,7 +61,7 @@ export default function DashboardPage() {
         />
         <StatCard
           title="Total Bazaar Expense"
-          value={`Ã Â§Â³${data?.totalBazaar || 0}`}
+          value={`৳${data?.totalBazaar || 0}`}
           icon={ShoppingCart}
           description="Total spent on groceries"
           loading={isLoading}
@@ -69,7 +69,7 @@ export default function DashboardPage() {
         />
         <StatCard
           title="Current Meal Rate"
-          value={`Ã Â§Â³${(data?.mealRate || 0).toFixed(2)}`}
+          value={`৳${(data?.mealRate || 0).toFixed(2)}`}
           icon={TrendingUp}
           description="Cost per meal unit"
           loading={isLoading}
@@ -77,7 +77,7 @@ export default function DashboardPage() {
         />
         <StatCard
           title="My Deposit Balance"
-          value={`Ã Â§Â³${data?.depositBalance || 0}`}
+          value={`৳${data?.depositBalance || 0}`}
           icon={Wallet}
           description="Your current advance balance"
           loading={isLoading}
@@ -111,12 +111,12 @@ export default function DashboardPage() {
                   </div>
                   <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
                     <span className="text-zinc-400">My Estimated Cost</span>
-                    <span className="font-semibold text-red-400">Ã Â§Â³{(data?.userEstimatedCost || 0).toFixed(2)}</span>
+                    <span className="font-semibold text-red-400">৳{(data?.userEstimatedCost || 0).toFixed(2)}</span>
                   </div>
                   <div className="flex items-center justify-between pt-2">
                     <span className="text-zinc-400 font-medium">Estimated Remaining Balance</span>
                     <span className={`font-bold text-lg ${(data?.depositBalance || 0) - (data?.userEstimatedCost || 0) >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
-                      Ã Â§Â³{((data?.depositBalance || 0) - (data?.userEstimatedCost || 0)).toFixed(2)}
+                      ৳{((data?.depositBalance || 0) - (data?.userEstimatedCost || 0)).toFixed(2)}
                     </span>
                   </div>
                 </div>

@@ -76,7 +76,7 @@ export default function BazaarsPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="amount">Total Amount (Ã Â§Â³)</Label>
+                  <Label htmlFor="amount">Total Amount (৳)</Label>
                   <Input 
                     id="amount" 
                     type="number" 
@@ -151,7 +151,7 @@ export default function BazaarsPage() {
                       </TableCell>
                       <TableCell className="text-zinc-300">{bazaar.buyer.name}</TableCell>
                       <TableCell className="text-zinc-400">{bazaar.items}</TableCell>
-                      <TableCell className="text-right font-bold text-emerald-400">Ã Â§Â³{bazaar.amount}</TableCell>
+                      <TableCell className="text-right font-bold text-emerald-400">৳{bazaar.amount}</TableCell>
                     </TableRow>
                   ))
                 ) : (
