@@ -1,6 +1,6 @@
-import { create } from 'zustand';
+﻿import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import api from '../lib/axios';
+import { AuthService } from '@/services/auth.service';
 
 export interface User {
   id: string;
@@ -36,7 +36,7 @@ export const useAuthStore = create<AuthState>()(
         })),
       logout: () => {
         set({ user: null, accessToken: null, isAuthenticated: false });
-        api.post('/auth/logout').catch(console.error); // Best effort backend logout
+        AuthService.logout().catch(console.error); // Best effort backend logout
       },
     }),
     {

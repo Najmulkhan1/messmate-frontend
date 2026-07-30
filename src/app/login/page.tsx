@@ -1,25 +1,16 @@
-"use client";
+﻿"use client";
 
 import { useState } from 'react';
-import { useForm } from 'react-form-hooks'; // Wait, let's use standard react-hook-form
-import { useForm as useRHForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { useAuthStore } from '../../store/useAuthStore';
-import api from '../../lib/axios';
+import { AuthService } from '@/services/auth.service';
 
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { motion } from 'framer-motion';
@@ -34,7 +25,7 @@ export default function LoginPage() {
   const setAuth = useAuthStore((state) => state.setAuth);
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useRHForm<z.infer<typeof loginSchema>>({
+  const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
@@ -45,9 +36,8 @@ export default function LoginPage() {
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     try {
       setIsLoading(true);
-      const res = await api.post('/auth/login', values);
-      
-      setAuth(res.data.data.user, res.data.data.accessToken);
+      const data = await AuthService.login(values);
+      setAuth(data.data.user, data.data.accessToken);
       toast.success('Logged in successfully!');
       router.push('/dashboard');
     } catch (error: any) {
@@ -73,39 +63,21 @@ export default function LoginPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-zinc-300">Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="name@example.com" className="bg-zinc-800 border-zinc-700 text-zinc-100" {...field} />
-                      </FormControl>
-                      <FormMessage className="text-red-400" />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-zinc-300">Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="••••••••" className="bg-zinc-800 border-zinc-700 text-zinc-100" {...field} />
-                      </FormControl>
-                      <FormMessage className="text-red-400" />
-                    </FormItem>
-                  )}
-                />
-                <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white" disabled={isLoading}>
-                  {isLoading ? 'Signing in...' : 'Sign In'}
-                </Button>
-              </form>
-            </Form>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium leading-none text-zinc-300">Email</label>
+                <Input placeholder="name@example.com" className="bg-zinc-800 border-zinc-700 text-zinc-100" {...form.register("email")} />
+                {form.formState.errors.email && <p className="text-[0.8rem] font-medium text-red-400">{form.formState.errors.email.message}</p>}
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium leading-none text-zinc-300">Password</label>
+                <Input type="password" placeholder="Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢" className="bg-zinc-800 border-zinc-700 text-zinc-100" {...form.register("password")} />
+                {form.formState.errors.password && <p className="text-[0.8rem] font-medium text-red-400">{form.formState.errors.password.message}</p>}
+              </div>
+              <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white" disabled={isLoading}>
+                {isLoading ? 'Signing in...' : 'Sign In'}
+              </Button>
+            </form>
           </CardContent>
           <CardFooter>
             <div className="text-sm text-zinc-400 text-center w-full">
