@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { DashboardService } from "@/services/dashboard.service";
-import { Utensils, Wallet, ShoppingCart, TrendingUp, AlertCircle, Bell, ArrowUpRight, ArrowDownRight, Users } from "lucide-react";
+import { Utensils, Wallet, ShoppingCart, TrendingUp, AlertCircle, ArrowUpRight, ArrowDownRight, Users } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion } from "framer-motion";
 
@@ -315,58 +315,50 @@ export default function DashboardPage() {
           )}
         </OverviewCard>
 
-        {/* Notifications & Quick Info */}
+        {/* Mess Summary */}
         <OverviewCard className="lg:col-span-3" delay={0.4}>
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-base font-semibold text-zinc-100">Notifications</h2>
-              <p className="text-xs text-zinc-500 mt-0.5">Recent updates and alerts</p>
+              <h2 className="text-base font-semibold text-zinc-100">Mess Summary</h2>
+              <p className="text-xs text-zinc-500 mt-0.5">At a glance overview</p>
             </div>
-            <div className="p-2 rounded-lg bg-zinc-800/50">
-              <Bell className="w-4 h-4 text-zinc-400" />
+            <div className="p-2 rounded-lg bg-emerald-500/10">
+              <Users className="w-4 h-4 text-emerald-400" />
             </div>
           </div>
 
           {isLoading ? (
-            <div className="space-y-3">
-              {[...Array(3)].map((_, i) => (
-                <Skeleton key={i} className="h-16 w-full bg-zinc-800 rounded-xl" />
+            <div className="space-y-4">
+              {[...Array(4)].map((_, i) => (
+                <Skeleton key={i} className="h-12 w-full bg-zinc-800 rounded-xl" />
               ))}
             </div>
           ) : (
-            <div className="space-y-3">
-              {data?.recentNotifications?.length > 0 ? (
-                data.recentNotifications.map((notif: any, idx: number) => (
-                  <div
-                    key={idx}
-                    className="p-3.5 rounded-xl bg-zinc-800/20 border border-zinc-800/30 hover:bg-zinc-800/30 transition-colors"
-                  >
-                    <p className="text-sm text-zinc-300">{notif.message}</p>
-                    <p className="text-[11px] text-zinc-600 mt-1">{notif.time}</p>
-                  </div>
-                ))
-              ) : (
-                <div className="flex flex-col items-center justify-center py-12 text-zinc-600">
-                  <div className="p-3 rounded-full bg-zinc-800/50 mb-3">
-                    <Bell className="w-5 h-5" />
-                  </div>
-                  <p className="text-sm font-medium text-zinc-500">No new notifications</p>
-                  <p className="text-xs text-zinc-600 mt-1">You&apos;re all caught up!</p>
-                </div>
-              )}
+            <div className="space-y-2">
+              <OverviewRow label="Total Members" value={data?.totalMembers || 0} color="violet" barWidth={`${Math.min((data?.totalMembers || 0) * 20, 100)}%`} />
+              <OverviewRow label="Total Meals" value={data?.totalMeals || 0} color="emerald" barWidth={`${Math.min((data?.totalMeals || 0) / 5, 100)}%`} />
+              <OverviewRow label="Total Bazaar" value={`৳${(data?.totalBazaar || 0).toLocaleString()}`} color="blue" barWidth={`${Math.min((data?.totalBazaar || 0) / 300, 100)}%`} />
+              <OverviewRow label="Meal Rate" value={`৳${(data?.mealRate || 0).toFixed(2)}`} color="orange" barWidth={`${Math.min((data?.mealRate || 0) * 1.5, 100)}%`} />
+              <OverviewRow label="Active Days" value={data?.activeDays || 0} color="emerald" barWidth={`${Math.min((data?.activeDays || 0) * 4, 100)}%`} />
             </div>
           )}
 
           <div className="mt-6 pt-5 border-t border-zinc-800/30">
-            <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">Quick Stats</h3>
+            <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">Your Stats</h3>
             <div className="grid grid-cols-2 gap-3">
               <div className="p-3 rounded-xl bg-zinc-800/20 border border-zinc-800/30">
-                <div className="text-[10px] text-zinc-600 uppercase tracking-wider mb-0.5">Members</div>
-                <div className="text-lg font-bold text-zinc-100">{data?.totalMembers || 0}</div>
+                <div className="flex items-center gap-2 mb-1">
+                  <Utensils className="w-3.5 h-3.5 text-emerald-400" />
+                  <div className="text-[10px] text-zinc-600 uppercase tracking-wider">Your Meals</div>
+                </div>
+                <div className="text-lg font-bold text-zinc-100">{data?.userMealsCount || 0}</div>
               </div>
               <div className="p-3 rounded-xl bg-zinc-800/20 border border-zinc-800/30">
-                <div className="text-[10px] text-zinc-600 uppercase tracking-wider mb-0.5">Days Active</div>
-                <div className="text-lg font-bold text-zinc-100">{data?.activeDays || 0}</div>
+                <div className="flex items-center gap-2 mb-1">
+                  <Wallet className="w-3.5 h-3.5 text-violet-400" />
+                  <div className="text-[10px] text-zinc-600 uppercase tracking-wider">Deposit</div>
+                </div>
+                <div className="text-lg font-bold text-zinc-100">৳{(data?.depositBalance || 0).toLocaleString()}</div>
               </div>
             </div>
           </div>

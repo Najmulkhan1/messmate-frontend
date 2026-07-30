@@ -168,10 +168,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
 
           <div className="flex items-center gap-2">
-            <button className="relative p-2.5 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 rounded-xl transition-all duration-200">
+            <div className="p-2.5 text-zinc-500 cursor-default rounded-xl">
               <Bell className="w-4 h-4" />
-              <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-zinc-950" />
-            </button>
+            </div>
             <div className="hidden sm:flex items-center gap-2.5 pl-2 border-l border-zinc-800">
               <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white font-bold text-[11px]">
                 {user.name.charAt(0).toUpperCase()}
